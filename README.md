@@ -15,6 +15,17 @@ A simple GUI that lets you:
 - Rename files and customize destination paths
 - Execute all transfers with one click
 
+## Screenshots
+
+![Application Interface](screenshots/app.png)
+*Main application interface showing file browser and transfer queue*
+
+![Project Selection](screenshots/project_selected.png)
+*Select source and destination projects from auto-detected Statamic sites*
+
+![Transfer Execution](screenshots/transfer_executed.png)
+*Execute transfers with one click*
+
 ## Supported File Types
 
 - Antlers templates (`.antlers.html`)
