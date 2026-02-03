@@ -33,9 +33,17 @@
                         </option>
                     </select>
                 </div>
-                <div v-if="sourceFiles.length" class="max-h-64 overflow-y-auto">
+                <div v-if="sourceFiles.length" class="mb-3">
+                    <input
+                        v-model="fileFilter"
+                        type="text"
+                        placeholder="Filter files by name..."
+                        class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-sm"
+                    >
+                </div>
+                <div v-if="filteredSourceFiles.length" class="max-h-64 overflow-y-auto">
                     <div
-                        v-for="file in sourceFiles"
+                        v-for="file in filteredSourceFiles"
                         :key="file.path"
                         @click="addToQueue(file)"
                         class="flex items-center gap-2 p-2 hover:bg-gray-700 rounded cursor-pointer text-sm"
@@ -46,6 +54,7 @@
                         <span class="truncate">@{{ file.path }}</span>
                     </div>
                 </div>
+                <p v-else class="text-gray-500 text-sm">Enter project path and click Load</p>
             </div>
 
             <!-- Destination Project -->
@@ -183,11 +192,24 @@
                 destIsStatamic: false,
                 transferQueue: [],
                 results: [],
-                herdProjects: []
+                herdProjects: [],
+                fileFilter: ''
             }
         },
         async mounted() {
             await this.loadHerdProjects();
+        },
+        computed: {
+            filteredSourceFiles() {
+                if (!this.fileFilter.trim()) {
+                    return this.sourceFiles;
+                }
+                const filter = this.fileFilter.toLowerCase();
+                return this.sourceFiles.filter(file =>
+                    file.name.toLowerCase().includes(filter) ||
+                    file.path.toLowerCase().includes(filter)
+                );
+            }
         },
         methods: {
             async loadHerdProjects() {
